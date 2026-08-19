@@ -1,0 +1,46 @@
+[
+  {
+    "id": "acme-corp",
+    "company": "Acme Corp",
+    "role": "Senior Frontend Engineer",
+    "stages": [
+      { "name": "Applied", "date": "2026-01-06", "status": "complete" },
+      { "name": "Recruiter Screen", "date": "2026-01-10", "status": "complete" },
+      { "name": "Technical Screen", "date": "2026-01-17", "status": "active" },
+      { "name": "Onsite", "date": null, "status": "pending" },
+      { "name": "Offer", "date": null, "status": "pending" }
+    ],
+    "notes": "Warm intro via a former coworker. Team uses React + GraphQL. Recruiter mentioned a take-home is likely after the technical screen.",
+    "createdAt": "2026-01-06T00:00:00.000Z",
+    "updatedAt": "2026-01-10T00:00:00.000Z"
+  },
+  {
+    "id": "globex-labs",
+    "company": "Globex Labs",
+    "role": "Full Stack Engineer",
+    "stages": [
+      { "name": "Applied", "date": "2025-12-15", "status": "complete" },
+      { "name": "Recruiter Screen", "date": "2025-12-18", "status": "complete" },
+      { "name": "Take Home Challenge", "date": "2025-12-22", "status": "complete" },
+      { "name": "Onsite", "date": "2026-01-05", "status": "complete" },
+      { "name": "Offer", "date": "2026-01-12", "status": "complete" },
+      { "name": "Accepted", "date": "2026-01-14", "status": "complete" }
+    ],
+    "notes": "Signed offer, starting next month. This is what an accepted application looks like end to end — every stage marked complete.",
+    "createdAt": "2025-12-15T00:00:00.000Z",
+    "updatedAt": "2026-01-14T00:00:00.000Z"
+  },
+  {
+    "id": "initech",
+    "company": "Initech",
+    "role": "Software Engineer II",
+    "stages": [
+      { "name": "Applied", "date": "2025-12-01", "status": "complete" },
+      { "name": "Recruiter Screen", "date": "2025-12-05", "status": "complete" },
+      { "name": "Withdrawn", "date": "2026-01-14", "status": "complete" }
+    ],
+    "notes": "Withdrew after accepting the Globex Labs offer. Process had gone quiet for two weeks before that anyway.",
+    "createdAt": "2025-12-01T00:00:00.000Z",
+    "updatedAt": "2026-01-14T00:00:00.000Z"
+  }
+]

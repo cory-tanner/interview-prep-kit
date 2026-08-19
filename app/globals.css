@@ -1,0 +1,307 @@
+@import "tailwindcss";
+@import "./diagrams.css";
+@import "highlight.js/styles/github-dark.css";
+
+/**
+ * Bridges our hand-tuned :root custom properties to the semantic token names
+ * shadcn/ui primitives (components/ui/*) expect (bg-primary, border-input,
+ * ring-ring, etc). `inline` keeps the indirection through var() instead of
+ * baking values in at build time — required so runtime data-theme switching
+ * (see :root[data-theme="dark"] below) still works through these tokens.
+ * Don't hardcode colors in generated primitive files — extend this map
+ * instead, so every primitive stays in sync with the rest of the app.
+ */
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--text);
+  --color-popover: var(--surface-raised);
+  --color-popover-foreground: var(--text);
+  --color-primary: var(--brand);
+  --color-primary-foreground: var(--brand-contrast);
+  --color-secondary: var(--surface);
+  --color-secondary-foreground: var(--text);
+  --color-muted: var(--surface);
+  --color-muted-foreground: var(--text-muted);
+  --color-accent: var(--brand-soft);
+  --color-accent-foreground: var(--brand);
+  --color-destructive: var(--red);
+  --color-destructive-foreground: var(--brand-contrast);
+  --color-border: var(--border);
+  --color-input: var(--border);
+  --color-ring: var(--brand);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-lg);
+}
+
+:root {
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --border: #e5e5e5;
+  --text: #0a0a0a;
+  --text-muted: #595959;
+  --brand: #0f766e;
+  --brand-hover: #115e59;
+  --brand-soft: #f0fdfa;
+  --brand-contrast: #ffffff;
+  --amber: #b45309;
+  --amber-soft: #fffbeb;
+  --red: #dc2626;
+  --radius-sm: 5px;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --shadow: 0 1px 2px rgba(16, 16, 18, 0.04);
+  --shadow-lg: 0 12px 32px rgba(16, 16, 18, 0.12), 0 2px 6px rgba(16, 16, 18, 0.06);
+  --font-sans: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-display: var(--font-sans);
+}
+
+:root[data-theme="dark"] {
+  --bg: #dedee0;
+  --surface: #eaeaeb;
+  --surface-raised: #f5f5f6;
+  --border: #c6c6ca;
+  --text: #0a0a0a;
+  --text-muted: #595959;
+  --brand: #115e59;
+  --brand-hover: #0c4a45;
+  --brand-soft: #f0fdfa;
+  --brand-contrast: #ffffff;
+  --amber: #96450a;
+  --amber-soft: #fffbeb;
+  --red: #b91c1c;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) {
+    --bg: #dedee0;
+    --surface: #eaeaeb;
+    --surface-raised: #f5f5f6;
+    --border: #c6c6ca;
+    --text: #0a0a0a;
+    --text-muted: #595959;
+    --brand: #115e59;
+    --brand-hover: #0c4a45;
+    --brand-soft: #f0fdfa;
+    --brand-contrast: #ffffff;
+    --amber: #96450a;
+    --amber-soft: #fffbeb;
+    --red: #b91c1c;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+.app-shell {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.app-shell::-webkit-scrollbar {
+  width: 10px;
+}
+
+.app-shell::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.app-shell::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+  border-radius: 999px;
+  border: 2px solid var(--surface);
+  background-clip: padding-box;
+}
+
+.app-shell::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-muted);
+}
+
+::selection {
+  background: var(--brand-soft);
+  color: var(--text);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes led-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.field {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.65rem;
+  font-size: 0.875rem;
+  font-family: var(--font-sans);
+  color: var(--text);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  width: 100%;
+}
+
+.field:focus {
+  outline: none;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 16%, transparent);
+}
+
+.field-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.inline-code {
+  background: var(--brand-soft);
+  border-radius: 4px;
+  padding: 0.15em 0.45em;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  color: var(--brand-hover);
+}
+
+.content-body {
+  font-size: 0.95rem;
+}
+
+.content-body h1,
+.content-body h2,
+.content-body h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-top: 2em;
+  margin-bottom: 0.6em;
+}
+
+.content-body h1 {
+  font-size: 1.75rem;
+  margin-top: 0;
+}
+
+.content-body h2 {
+  font-size: 1.25rem;
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid var(--border);
+}
+
+.content-body h3 {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--brand);
+}
+
+.content-body p,
+.content-body ul,
+.content-body ol {
+  line-height: 1.7;
+  margin-bottom: 1.1em;
+  color: var(--text);
+  max-width: 66ch;
+}
+
+.content-body ul,
+.content-body ol {
+  padding-left: 1.35em;
+}
+
+.content-body li + li {
+  margin-top: 0.35em;
+}
+
+.content-body code:not(.hljs code) {
+  background: var(--brand-soft);
+  border-radius: 4px;
+  padding: 0.15em 0.45em;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  color: var(--brand-hover);
+}
+
+.content-body pre {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.05em;
+  overflow-x: auto;
+  margin-bottom: 1.4em;
+  font-size: 0.82rem;
+}
+
+.content-body a {
+  color: var(--brand);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--brand) 40%, transparent);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px;
+}
+
+.content-body a:hover {
+  text-decoration-color: var(--brand);
+}
+
+.content-body hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2.2em 0;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
